@@ -1,0 +1,47 @@
+#滑动窗口
+#s为大字符串，words为list，list每个元素长度为n
+#所以分n次从s开头滑动，步长n
+#头指针a，尾指针b，新增的右侧字符为word，新建比对字典d，d包含了words所有元素对应的数目
+#先统计words中每个字符数目，用dic来统计
+#如果新增word不在words中，跳过该步长
+#如果在，加入新字典q
+#如果q中新增的word元素数目比比对字典d中的多，那么窗口左侧开始缩进，直到数目不超出
+#如果ab之间长度和words所有元素长度一样，说明该字串符合条件，把a的位置加入要返回的列表中
+
+
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        if words == []:
+            return []
+        l = []
+        n = len(words[0])
+        d ={}
+        for i in words:
+            if i in d:
+                d[i]+=1
+            else:
+                d[i]=1
+        for t in range(n): #n-1?
+            a = t
+            b = t
+            q = {}
+            while a+len(words)*n <= len(s):
+                word = s[b:b+n]
+                b = b+n
+                if word not in words:
+                    q.clear()
+                    a = b
+                else:
+                    if word in q:
+                        q[word]+=1
+                    else:
+                        q[word] = 1
+                        
+                    while q[word]>d[word]:
+                        q[s[a:a+n]]-=1
+                        a+=n
+                    
+                    if b-a==len(words)*n:
+                        l.append(a)
+        return l              
+            
