@@ -1,0 +1,25 @@
+#二分查找法 https://www.youtube.com/watch?v=7SC0hWGeyBo&t=197s
+#注意第15行，是>=，因为=的情况和>的情况是类似的，如果把=归到<的情况一类那么除非left=mid=right=mid~right，这只算是很少的特殊情况
+
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        if len(nums)==0 or target==None:
+            return -1
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            mid = left + int((right - left)/2)
+            if nums[mid] == target:
+                return mid
+            elif nums[mid]>=nums[left]:
+                if target>=nums[left] and target<nums[mid]:
+                    right = mid -1
+                else:
+                    left = mid +1
+            else:
+                if target >nums[mid] and target <= nums[right]:
+                    left = mid +1
+                else:
+                    right = mid -1
+        return -1
