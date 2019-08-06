@@ -1,0 +1,26 @@
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        for i in range(9):
+            if not self.isValid(board[i]):
+                return False
+            col = [c[i] for c in board]
+            if not self.isValid(col):
+                return False
+        for i in [0,3,6]:
+            for j in [0,3,6]:
+                sub=[board[a][b] for a in [i,i+1,i+2] for b in [j,j+1,j+2]]
+                if not self.isValid(sub):
+                    return False
+        return True
+            
+            
+            
+    def isValid(self, row):
+        a = {}
+        for i in row:
+            if i != ".":
+                if i not in a:
+                    a[i]=True
+                else:
+                    return False
+        return True
