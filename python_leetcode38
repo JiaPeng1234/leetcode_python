@@ -1,0 +1,57 @@
+#solution1:
+
+class Solution:
+    def countAndSay(self, n: int) -> str:
+        say=[]
+        say.append('1')
+        nextR=''
+        tmp=''
+        flag=0
+        for i in range(1,n):
+            for j in range(len(str(say[i-1]))):
+                if j==len(str(say[i-1]))-1:
+                    if str(say[i-1])[j] == tmp or tmp=='':
+                        flag+=1
+                        nextR=nextR+str(flag)+str(say[i-1])[j]
+                    else:
+
+                        nextR=nextR+str(flag)+tmp
+                        flag=1
+                        nextR=nextR+str(flag)+str(say[i-1])[j]
+                elif str(say[i-1])[j] == tmp or tmp=='':
+                    flag+=1
+                    
+                else:
+                    nextR=nextR+str(flag)+tmp
+                    flag=1
+                    
+                        
+                tmp=str(say[i-1])[j]
+            flag=0 
+            say.append(nextR)
+            nextR=''
+            tmp=''
+            
+        return say[n-1]
+        
+        
+#solution2:
+#递归：
+class Solution:
+    def countAndSay(self, n: int) -> str:
+        if n==1: return '1'
+        res=self.countAndSay(n-1)
+        gen=''
+        count=0
+        for i in range(len(res)):
+            if i==len(res)-1 or res[i]!=res[i+1]:
+                count+=1
+                gen+=str(count)+res[i]
+                count=0
+            else:    
+                count+=1
+        return gen
+                
+        
+
+
