@@ -1,0 +1,59 @@
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        self.board = board
+        self.solve()
+        
+    def solve(self):
+        row,col = self.findUnsigned()
+        if row == -1 and col == -1:
+            return True
+        for i in ['1','2','3','4','5','6','7','8','9']:
+            if self.isSafe(row,col,i):
+                self.board[row][col]=i
+                if self.solve():
+                    return True
+                self.board[row][col]="."
+        return False
+        
+        
+    def findUnsigned(self):
+        for i in range(9):
+            for j in range(9):
+                if self.board[i][j] == '.':
+                    return i,j
+        return -1,-1    
+    
+    def isSafe(self,row,col,ch):
+        if not self.rowSafe(row,ch):
+            return False
+        if not self.colSafe(col,ch):
+            return False
+        if not self.boxSafe(row,col,ch):
+            return False
+        return True
+    
+    def rowSafe(self,row,ch):
+        for i in range(9):
+            if self.board[row][i]==ch:
+                return False
+        return True
+    
+    def colSafe(self,col,ch):
+        for i in range(9):
+            if self.board[i][col]==ch:
+                return False
+        return True
+        
+    def boxSafe(self,row,col,ch):
+        boxrow=row-row%3
+        boxcol=col-col%3
+        for i in range(boxrow,boxrow+3):
+            for j in range(boxcol,boxcol+3):
+                if self.board[i][j]==ch:
+                    return False
+        return True
+        
+    
