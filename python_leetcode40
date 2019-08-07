@@ -1,0 +1,26 @@
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        self.res=[]
+        #if sum(candidates)<target:
+        #    return []
+        def dfs(candidates,temp,remainder,index):
+            if remainder==0:
+                self.res.append(temp[:])
+                return
+            if remainder<0:
+                return
+            #if remainder>0 and index==len(candidates)-1:
+                #return
+            for i in range(index,len(candidates)):
+                # >index 并且 不能与前一个数值相等 保障了没有重复 同时第一遍是会走完的 而不是一边都不走
+                if i>index and candidates[i]==candidates[i-1]:
+                    continue
+                temp.append(candidates[i])
+                
+                
+                dfs(candidates,temp,remainder-candidates[i],i+1)
+                temp.pop()
+            
+        dfs(candidates,[],target,0)
+        return self.res
