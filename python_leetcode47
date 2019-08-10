@@ -1,0 +1,18 @@
+##与上一题不同之处在于要permute的数组中有重复排列，所以关键在于理解要i>0并且和上一个相等，那么就跳过，注意因为是不断递归，所以重复immer都是第一个
+
+
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        res=[]
+        nums.sort()
+        def permute(nums,path):
+            if not nums:
+                res.append(path)
+                return
+            for i in range(len(nums)):
+                if i>0 and nums[i]==nums[i-1]:
+                    continue
+                permute(nums[:i]+nums[i+1:],path+[nums[i]])
+                
+        permute(nums,[])
+        return res
